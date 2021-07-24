@@ -1,3 +1,5 @@
+library flutter_map;
+
 import 'dart:async';
 
 import 'package:async/async.dart';
