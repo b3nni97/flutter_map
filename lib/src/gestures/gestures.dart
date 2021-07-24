@@ -41,7 +41,7 @@ abstract class MapGestureMixin extends State<FlutterMap>
   late double _mapZoomStart;
   late Offset _focalStartLocal;
 
-  late final AnimationController _flingController;
+  late final AnimationController flingController;
   late Animation<Offset> _flingAnimation;
 
   late final AnimationController _doubleTapController;
@@ -61,7 +61,7 @@ abstract class MapGestureMixin extends State<FlutterMap>
   @override
   void initState() {
     super.initState();
-    _flingController = AnimationController(vsync: this)
+    flingController = AnimationController(vsync: this)
       ..addListener(_handleFlingAnimation)
       ..addStatusListener(_flingAnimationStatusListener);
     _doubleTapController =
@@ -184,8 +184,8 @@ abstract class MapGestureMixin extends State<FlutterMap>
 
   void closeFlingAnimationController(MapEventSource source) {
     _flingAnimationStarted = false;
-    if (_flingController.isAnimating) {
-      _flingController.stop();
+    if (flingController.isAnimating) {
+      flingController.stop();
 
       mapState.emitMapEvent(
         MapEventFlingAnimationEnd(
@@ -490,9 +490,9 @@ abstract class MapGestureMixin extends State<FlutterMap>
     _flingAnimation = Tween<Offset>(
       begin: _flingOffset,
       end: _flingOffset - direction * distance,
-    ).animate(_flingController);
+    ).animate(flingController);
 
-    _flingController
+    flingController
       ..value = 0.0
       ..fling(
           velocity: magnitude / 1000.0,
@@ -735,7 +735,7 @@ abstract class MapGestureMixin extends State<FlutterMap>
 
   @override
   void dispose() {
-    _flingController.dispose();
+    flingController.dispose();
     _doubleTapController.dispose();
     super.dispose();
   }
